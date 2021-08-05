@@ -29,4 +29,6 @@ streamelementsjwt:sdgthFGulijghws68548qw4ht9DBytj49rtq.948eweDFG4wert48y4tuy84er
 
 To run the program, open a command prompt in the same directory as the program, and run either `python3 headpattr.py` or `python headpattr.py` or `py headpattr.py`. Which one of those commands works may depend on how you installed python and what OS you are using. On Windows, double clicking the `headpattr.bat` file may work.
 
-In case you're wondering, it's called headpattr because the original idea was to make it do a headpat action when someone donated.
+Once you have it set up, modify the `commands.py` file to add custom actions. The example actions press buttons and play sounds, but it's just python code so you can do anything you want if you write the code for it. Maybe you want to write to a file, maybe you want to send a network request, etc. There's lots of python tutorials out there that you can copy/paste from.
+
+In case you're wondering, it's called headpattr because the original idea was to press a hotkey to do a headpat action when someone donated.

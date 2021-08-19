@@ -18,6 +18,11 @@ def streamelementsTipCallback(event: dict) -> None:
     print("%s tipped %.2f %s" % (data["username"], data["amount"], data["currency"]))
     q(mediumHeadpat)
 
+def streamlabsTipCallback(event: dict) -> None:
+    data = event["message"][0]
+    print("%s tipped %s" % (data["from"], data["formatted_amount"]))
+    q(mediumHeadpat)
+
 def bitCallback(uuid: UUID, response: dict) -> None:
     data = response["data"]
     print("got %d bits from %s" % (data["bits_used"], data["user_name"]))

@@ -6,6 +6,7 @@ from uuid import UUID
 import asyncio
 
 import streamelementsIntegration
+import streamlabsIntegration
 import commands
 
 #read config
@@ -14,6 +15,7 @@ accesstoken = ""
 refreshtoken = ""
 clientid = ""
 streamelementsjwt = ""
+streamlabssocket = ""
 with open("apikeys.txt") as f:
     content = f.readlines()
 for line in content:
@@ -28,6 +30,8 @@ for line in content:
         clientid = line[len("clientid:"):]
     elif line.startswith("streamelementsjwt"):
         streamelementsjwt = line[len("streamelementsjwt:"):]
+    elif line.startswith("streamlabssocket"):
+        streamlabssocket = line[len("streamlabssocket:"):]
 
 # setting up Authentication and getting your user id
 print("connecting to twitch...")
@@ -44,6 +48,7 @@ pubsub.listen_bits(user_id, commands.bitCallback)
 print("connected to twitch")
 
 streamelementsIntegration.listenForEvents(streamelementsjwt, commands.streamelementsTipCallback)
+streamlabsIntegration.listenForEvents(streamlabssocket, commands.streamlabsTipCallback)
 
 # read actions from the queue, then wait for them to finish
 async def doActions():

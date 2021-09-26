@@ -1,4 +1,5 @@
 import keyboard
+import other_keyboard
 from uuid import UUID
 import asyncio
 import winsound
@@ -60,11 +61,11 @@ def shortHeadpat():
 
 def mediumHeadpat():
     sound("medium sound.wav")
-    keyboard.press_and_release('ctrl+b')
+    other_keyboard.PressAndRelease('b')
     return 2
 
 def longHeadpat():
     sound("long sound.wav")
-    keyboard.press_and_release('ctrl+c')
+    other_keyboard.PressAndRelease('f12')
     return 5
 

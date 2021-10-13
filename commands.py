@@ -3,6 +3,7 @@ import other_keyboard
 from uuid import UUID
 import asyncio
 import winsound
+import time
 
 actionQueue = asyncio.Queue()
 def q(action):
@@ -49,6 +50,29 @@ def pointCallback(uuid: UUID, response: dict) -> None:
     if data["redemption"]["reward"]["title"] == "Headpat":
         q(mediumHeadpat)
 
+pomfUserTimes = {}
+pomfGlobalTime = 0
+def pomfCallback(user: str, message: str) -> None:
+    global pomfUserTimes
+    global pomfGlobalTime
+    t = time.time()
+    if t - pomfGlobalTime < 0: # shared cooldown, only do 1 command every this many seconds, change to 0 to disable
+        return
+    if user in pomfUserTimes and t - pomfUserTimes[user] < 60: # per user cooldown, change to 0 to disable
+        return
+    # add more commands here, make sure to copy the `pomfGlobalTime = t` and `pomfUserTimes[user] = t` lines if you want the cooldown to work
+    if message == "!headpat":
+        pomfGlobalTime = t
+        pomfUserTimes[user] = t
+        q(shortHeadpat)
+    elif message == "!headpaat":
+        pomfGlobalTime = t
+        pomfUserTimes[user] = t
+        q(mediumHeadpat)
+    elif message == "!headpaaat":
+        pomfGlobalTime = t
+        pomfUserTimes[user] = t
+        q(longHeadpat)
 
 # define your custom actions here
 # return the number of seconds to wait after the action before the next action can happen

@@ -7,6 +7,7 @@ import asyncio
 
 import streamelementsIntegration
 import streamlabsIntegration
+import pomfIntegration
 import commands
 
 #read config
@@ -16,6 +17,7 @@ refreshtoken = ""
 clientid = ""
 streamelementsjwt = ""
 streamlabssocket = ""
+pomfusername = ""
 with open("apikeys.txt") as f:
     content = f.readlines()
 for line in content:
@@ -32,23 +34,40 @@ for line in content:
         streamelementsjwt = line[len("streamelementsjwt:"):]
     elif line.startswith("streamlabssocket"):
         streamlabssocket = line[len("streamlabssocket:"):]
+    elif line.startswith("pomfusername"):
+        pomfusername = line[len("pomfusername:"):]
 
 # setting up Authentication and getting your user id
-print("connecting to twitch...")
-twitch = Twitch(clientid, authenticate_app=False)
-twitch.set_user_authentication(accesstoken, [AuthScope.BITS_READ, AuthScope.CHANNEL_READ_SUBSCRIPTIONS, AuthScope.CHANNEL_READ_REDEMPTIONS], refreshtoken)
-user_id = twitch.get_users(logins=[twitchusername])['data'][0]['id']
+if twitchusername and accesstoken and refreshtoken and clientid:
+    print("connecting to twitch...")
+    twitch = Twitch(clientid, authenticate_app=False)
+    twitch.set_user_authentication(accesstoken, [AuthScope.BITS_READ, AuthScope.CHANNEL_READ_SUBSCRIPTIONS, AuthScope.CHANNEL_READ_REDEMPTIONS], refreshtoken)
+    user_id = twitch.get_users(logins=[twitchusername])['data'][0]['id']
 
-# starting up PubSub
-pubsub = PubSub(twitch)
-pubsub.start()
-pubsub.listen_channel_points(user_id, commands.pointCallback)
-pubsub.listen_channel_subscriptions(user_id, commands.subCallback)
-pubsub.listen_bits(user_id, commands.bitCallback)
-print("connected to twitch")
+    # starting up PubSub
+    pubsub = PubSub(twitch)
+    pubsub.start()
+    pubsub.listen_channel_points(user_id, commands.pointCallback)
+    pubsub.listen_channel_subscriptions(user_id, commands.subCallback)
+    pubsub.listen_bits(user_id, commands.bitCallback)
+    print("connected to twitch")
+else:
+    print("skipping twitch, at least one of [twitchusername accesstoken refreshtoken clientid] was blank")
 
-streamelementsIntegration.listenForEvents(streamelementsjwt, commands.streamelementsTipCallback)
-streamlabsIntegration.listenForEvents(streamlabssocket, commands.streamlabsTipCallback)
+if streamelementsjwt:
+    streamelementsIntegration.listenForEvents(streamelementsjwt, commands.streamelementsTipCallback)
+else:
+    print("skipping streamelements, streamelementsjwt was blank")
+
+if streamlabssocket:
+    streamlabsIntegration.listenForEvents(streamlabssocket, commands.streamlabsTipCallback)
+else:
+    print("skipping streamlabs, streamlabssocket was blank")
+
+if pomfusername:
+    pomfIntegration.listenForEvents(pomfusername, commands.pomfCallback)
+else:
+    print("skipping pomf, pomfusername was blank")
 
 # read actions from the queue, then wait for them to finish
 async def doActions():

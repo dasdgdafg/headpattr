@@ -20,6 +20,7 @@ def listenForEvents(pomfusername, callback):
             print("connected to pomf")
             async for message in ws:
                 await handleMessage(message)
+            print("disconnected from pomf")
 
     async def handleMessage(message):
         event = json.loads(message)

@@ -5,7 +5,7 @@ import nest_asyncio
 nest_asyncio.apply()
 
 import pomfIntegration
-##import twitchIntegration
+import twitchIntegration
 import commands
 
 #read config

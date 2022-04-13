@@ -14,7 +14,7 @@ def device_removed(emitter, dev: ButtplugClientDevice):
 async def connect():
     global client
     print("connecting to intiface...")
-    
+
     # First, we'll need to set up a client object. This is our conduit to the
     # server.
     # We create a Client object, passing it the name we want for the client.

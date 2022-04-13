@@ -34,6 +34,7 @@ def messageCallback(user: str, message: str) -> None:
     global userTimes
     global globalTime
     t = time.time()
+    #print(user, message)
 
     # shared cooldown, only do 1 command every this many seconds, change to 0 to disable
     if t - globalTime < 0: 

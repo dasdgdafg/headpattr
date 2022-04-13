@@ -24,7 +24,7 @@ def listenForEvents(pomfusername, callback):
 
     async def handleMessage(message):
         event = json.loads(message)
-        if event["type"] == "message":
+        if "type" in event and event["type"] == "message":
             callback(event["from"]["name"], event["message"].strip())
 
     asyncio.get_event_loop().create_task(connect())

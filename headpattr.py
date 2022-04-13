@@ -1,6 +1,8 @@
 from pprint import pprint
 from uuid import UUID
 import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 
 import pomfIntegration
 ##import twitchIntegration

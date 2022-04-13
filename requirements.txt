@@ -1,0 +1,4 @@
+buttplug==0.2.1
+keyboard==0.13.5
+nest_asyncio==1.5.5
+websockets==10.2

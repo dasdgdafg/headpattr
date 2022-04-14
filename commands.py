@@ -41,7 +41,7 @@ def messageCallback(user: str, message: str) -> None:
         return
 
     # per user cooldown, change to 0 to disable
-    if user in userTimes and t - userTimes[user] < 0: 
+    if user in userTimes and t - userTimes[user] < 60: 
         return
 
     # Add your commands here
@@ -65,7 +65,7 @@ def messageCallback(user: str, message: str) -> None:
     elif message == "!cunnypat":
         globalTime = t
         userTimes[user] = t
-        q(lambda: vibrateTemp(0.75, 5)) # vibrate with 75% intensity for 5 seconds
+        q(shortVibrate)
     elif re.match("^!vibrate ([0-9]+)$", message):
         # vibrates at the specified intensity
         # "!vibrate 50" would be 50% intensity for example
@@ -93,6 +93,10 @@ def bellyrub():
     # other_keyboard only supports pressing 1 key at a time
     other_keyboard.PressAndRelease('f12')
     return 2
+
+def shortVibrate():
+    vibrateTemp(0.75, 5) # vibrate with 75% intensity for 5 seconds
+    return 0
 
 def vibrateConstant(intensity):
     # set the vibration intensity (and leave it on)

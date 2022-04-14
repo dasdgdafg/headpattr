@@ -3,8 +3,6 @@ import websockets
 import json
 import random
 
-ws = None
-
 def listenForEvents(pomfusername, callback):
 
     async def connect():
@@ -14,11 +12,9 @@ def listenForEvents(pomfusername, callback):
                                       origin="https://pomf.tv",
                                       ping_interval=20,
                                       ping_timeout=5) as websocket:
-            global ws
-            ws = websocket
-            await ws.send("{\"roomId\":\"%s\",\"userName\":\"Guest_%s\",\"apikey\":\"Guest\",\"action\":\"connect\"}" % (pomfusername, int(random.random()*100000000)))
+            await websocket.send("{\"roomId\":\"%s\",\"userName\":\"Guest_%s\",\"apikey\":\"Guest\",\"action\":\"connect\"}" % (pomfusername, int(random.random()*100000000)))
             print("connected to pomf")
-            async for message in ws:
+            async for message in websocket:
                 await handleMessage(message)
             print("disconnected from pomf")
 

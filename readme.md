@@ -1,7 +1,6 @@
 Install python if you don't already have it: https://www.python.org/downloads/
 
 Install the dependencies. Depending on your operating system and how you installed python, the command for this will be something like `pip install -r requirements.txt` or `py -m pip install -r requirements.txt` or `python -m pip install -r requirements.txt`. Most of the dependencies are only needed for certain integrations, so you could just manually install the ones you want if you prefer.  
-Do the same thing for the packages `keyboard` and `winsound`. (`winsound` is only on windows, use something else instead on linux, such as `playsound`.)
 
 Create a file called `apikeys.txt`, that looks like this
 ```
